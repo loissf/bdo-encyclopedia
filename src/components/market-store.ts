@@ -11,7 +11,7 @@ export enum ViewType {
 export const useMarketStore = defineStore("market", () => {
   const listItems = ref<ListItem[]>([]);
 
-  const viewType = ref<ViewType>(ViewType.ItemList);
+  const viewType = ref<ViewType>();
 
   const selectedItem = ref<SubList>();
 

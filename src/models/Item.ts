@@ -41,3 +41,9 @@ export interface SubList {
   baseItem: ListItem;
   subList: SubListItem[];
 }
+
+export interface ItemOrders {
+  price: number;
+  orders: number;
+  sell: boolean;
+}

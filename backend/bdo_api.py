@@ -1,7 +1,7 @@
 import requests
 
 from file_functions import openJSON, createJSON
-from Item import ListItem, SubListItem, HotListItem
+from Item import ListItem, SubListItem, HotListItem, ItemOrders
 
 from unpacker import unpack
 
@@ -59,6 +59,24 @@ def getSubList(id: int) -> list[SubListItem]:
     response = requests.request('POST', url, json=payload, headers=headers)
     attributeList = __subListResponseToAttributes(response.text)
     items = __mapSubListItem(attributeList)
+    return items
+
+
+def getBiddingInfo(id: int, enhancement: int) -> list[ItemOrders]:
+    url = 'https://eu-trade.naeu.playblackdesert.com/Trademarket/GetBiddingInfoList'
+    headers = {
+        "Content-Type": "application/json",
+        "User-Agent": "BlackDesert"
+    }
+    payload = {
+        "keyType": 0,
+        "mainKey": id,
+        "subKey": enhancement
+    }
+
+    response = requests.request('POST', url, json=payload, headers=headers)
+    attributeList = __responseToAttributes(unpack(response.content))
+    items = __mapItemOrders(attributeList)
     return items
 
 
@@ -161,3 +179,20 @@ def __mapSubListItem(attributeList):
             print(e)
             print(f"Error getting item {attributes[0]}")
     return items
+
+
+def __mapItemOrders(attributeList):
+    orders = []
+    for attributes in attributeList:
+
+        sellOrders = int(attributes[1])
+        buyOrders = int(attributes[2])
+
+        order = ItemOrders(
+            price = int(attributes[0]),
+            orders = sellOrders if sellOrders > 0 else buyOrders,
+            sell = sellOrders > 0
+        )
+
+        orders.append(order)
+    return orders

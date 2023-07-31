@@ -48,3 +48,17 @@ class SubListItem(ItemBase):
 class HotListItem(SubListItem):
     changeDirection = 0
     changeValue = 0
+
+    def __init__(self, id, name, grade, icon, enhancement, stock, basePrice, totalTrades, lastPrice, lastSale, mainCategory, subCategory):
+        super().__init__(id, name, grade, icon, enhancement, stock, basePrice, totalTrades, lastPrice, lastSale, mainCategory, subCategory)
+
+
+class ItemOrders:
+    price = 0
+    orders = 0
+    sell = True
+
+    def __init__(self, price, orders, sell):
+        self.price = price
+        self.orders = orders
+        self.sell = sell

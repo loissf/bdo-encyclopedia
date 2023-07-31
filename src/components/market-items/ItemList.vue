@@ -12,8 +12,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
-import { ListItem, SubList } from "@/models/Item";
+import { computed } from "vue";
+import { ListItem } from "@/models/Item";
 import ListItemComponent from "./ListItemComponent.vue";
 import { getItem } from "@/queries";
 import { useMarketStore, ViewType } from "@/components/market-store";
@@ -25,14 +25,18 @@ const items = computed({
   set: (value) => (marketStore.listItems = value),
 });
 
-const selectedItem = ref<SubList>();
-
 async function selectItem(item: ListItem) {
-  marketStore.selectedItem = (await getItem(item.id)) ?? {
+  const selectedItem = (await getItem(item.id)) ?? {
     baseItem: item,
     subList: [],
   };
-  marketStore.viewType = ViewType.ItemSubList;
+
+  marketStore.selectedItem = selectedItem;
+
+  marketStore.viewType =
+    selectedItem.subList.length > 1
+      ? ViewType.ItemSubList
+      : ViewType.ItemDetail;
 }
 </script>
 

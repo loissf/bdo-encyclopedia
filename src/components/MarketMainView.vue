@@ -1,28 +1,26 @@
 <template>
   <div class="market">
     <div class="top-bar">
-      <TopBar></TopBar>
+      <TopBar />
     </div>
     <div class="categories">
-      <CategoriesSelector
-        @select:category="selectCategory"
-      ></CategoriesSelector>
+      <CategoriesSelector />
     </div>
     <div class="content">
-      <component :is="viewType"></component>
+      <component v-if="viewType" :is="viewType" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
+import { computed } from "vue";
 import ItemList from "./market-items/ItemList.vue";
 import ItemSubList from "./market-items/ItemSubList.vue";
 import TopBar from "./TopBar.vue";
 import CategoriesSelector from "./categories-selector/CategoriesSelector.vue";
-import { getCategory } from "@/queries";
 
 import { useMarketStore, ViewType } from "./market-store";
+import ItemDetail from "./market-items/ItemDetail.vue";
 
 const marketStore = useMarketStore();
 
@@ -32,19 +30,10 @@ const viewType = computed(() => {
       return ItemList;
     case ViewType.ItemSubList:
       return ItemSubList;
-    default:
-      return ItemList;
+    case ViewType.ItemDetail:
+      return ItemDetail;
   }
 });
-
-const items = computed({
-  get: () => marketStore.listItems,
-  set: (value) => (marketStore.listItems = value),
-});
-
-async function selectCategory(categoryId: number, subcategoryId: number) {
-  items.value = await getCategory(categoryId, subcategoryId);
-}
 </script>
 
 <style scoped lang="scss">

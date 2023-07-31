@@ -1,6 +1,6 @@
 import axios from "axios";
 import qs from "qs";
-import { ListItem, SubListItem, SubList } from "./models/Item";
+import { ListItem, SubListItem, SubList, ItemOrders } from "./models/Item";
 
 const url = "http://127.0.0.1:5000";
 
@@ -70,6 +70,22 @@ export async function getCategory(
   try {
     const { data } = await axios.get<ListItem[]>(
       `${url}/category/${categoryId}/${subcategoryId}`
+    );
+
+    return data;
+  } catch (e) {
+    console.log(e);
+    return [];
+  }
+}
+
+export async function getItemOrders(
+  id: number,
+  enhancement: number
+): Promise<ItemOrders[]> {
+  try {
+    const { data } = await axios.get<ItemOrders[]>(
+      `${url}/items/${id}/orders/${enhancement}`
     );
 
     return data;

@@ -7,7 +7,10 @@
     ></ListItemComponent>
     <ul>
       <li v-for="item in selectedItem.subList" :key="item.id">
-        <ListItemComponent :item="item"></ListItemComponent>
+        <ListItemComponent
+          :item="item"
+          @click="selectItem(item)"
+        ></ListItemComponent>
       </li>
     </ul>
   </div>
@@ -16,13 +19,17 @@
 <script setup lang="ts">
 import ListItemComponent from "./ListItemComponent.vue";
 import { useMarketStore, ViewType } from "@/components/market-store";
+import { SubListItem } from "@/models/Item";
 
 const marketStore = useMarketStore();
 
 const selectedItem = marketStore.selectedItem;
 
+async function selectItem(item: SubListItem) {
+  marketStore.viewType = ViewType.ItemDetail;
+}
+
 function returnClick() {
-  marketStore.selectedItem = undefined;
   marketStore.viewType = ViewType.ItemList;
 }
 </script>
