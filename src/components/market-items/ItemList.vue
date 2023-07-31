@@ -1,17 +1,5 @@
 <template>
-  <div v-if="selectedItem" class="item-detail">
-    <button type="button" @click="selectedItem = undefined">Return</button>
-    <ListItemComponent
-      class="base-item"
-      :item="selectedItem.baseItem"
-    ></ListItemComponent>
-    <ul>
-      <li v-for="item in selectedItem.subList" :key="item.id">
-        <ListItemComponent :item="item"></ListItemComponent>
-      </li>
-    </ul>
-  </div>
-  <div v-else class="item-list">
+  <div class="item-list">
     <ul>
       <li v-for="item in items" :key="item.id">
         <ListItemComponent
@@ -28,7 +16,7 @@ import { computed, ref, watch } from "vue";
 import { ListItem, SubList } from "@/models/Item";
 import ListItemComponent from "./ListItemComponent.vue";
 import { getItem } from "@/queries";
-import { useMarketStore } from "@/components/market-store";
+import { useMarketStore, ViewType } from "@/components/market-store";
 
 const marketStore = useMarketStore();
 
@@ -40,21 +28,16 @@ const items = computed({
 const selectedItem = ref<SubList>();
 
 async function selectItem(item: ListItem) {
-  selectedItem.value = (await getItem(item.id)) ?? {
+  marketStore.selectedItem = (await getItem(item.id)) ?? {
     baseItem: item,
     subList: [],
   };
+  marketStore.viewType = ViewType.ItemSubList;
 }
 </script>
 
 <style scoped lang="scss">
 .item-list {
-}
-
-.item-detail {
-  .base-item {
-    margin-bottom: 1.5rem;
-  }
 }
 
 ul {

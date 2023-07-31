@@ -1,32 +1,23 @@
-import { ListItem } from "@/models/Item";
+import { ListItem, SubList } from "@/models/Item";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 
+export enum ViewType {
+  ItemList,
+  ItemDetail,
+  ItemSubList,
+}
+
 export const useMarketStore = defineStore("market", () => {
-  const _listItems = ref<ListItem[]>([]);
-  const listItems = computed({
-    get: () => {
-      return _listItems.value;
-    },
+  const listItems = ref<ListItem[]>([]);
 
-    set: (value: ListItem[]) => {
-      _listItems.value = value;
-    },
-  });
+  const viewType = ref<ViewType>(ViewType.ItemList);
 
-  const _viewType = ref<string>("");
-  const viewType = computed({
-    get: () => {
-      return _viewType.value;
-    },
-
-    set: (value: string) => {
-      _viewType.value = value;
-    },
-  });
+  const selectedItem = ref<SubList>();
 
   return {
     listItems,
     viewType,
+    selectedItem,
   };
 });

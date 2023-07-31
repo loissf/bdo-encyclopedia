@@ -9,24 +9,34 @@
       ></CategoriesSelector>
     </div>
     <div class="content">
-      <ItemList></ItemList>
+      <component :is="viewType"></component>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
-import { ListItem } from "@/models/Item";
 import ItemList from "./market-items/ItemList.vue";
+import ItemSubList from "./market-items/ItemSubList.vue";
 import TopBar from "./TopBar.vue";
 import CategoriesSelector from "./categories-selector/CategoriesSelector.vue";
 import { getCategory } from "@/queries";
 
-import { useMarketStore } from "./market-store";
+import { useMarketStore, ViewType } from "./market-store";
 
 const marketStore = useMarketStore();
 
-const viewType = computed(() => marketStore.viewType);
+const viewType = computed(() => {
+  switch (marketStore.viewType) {
+    case ViewType.ItemList:
+      return ItemList;
+    case ViewType.ItemSubList:
+      return ItemSubList;
+    default:
+      return ItemList;
+  }
+});
+
 const items = computed({
   get: () => marketStore.listItems,
   set: (value) => (marketStore.listItems = value),
