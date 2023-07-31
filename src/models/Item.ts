@@ -18,6 +18,8 @@ export interface SubListItem extends ItemBase {
   totalTrades: number;
   lastPrice: number;
   lastSale: number;
+  mainCategory: number;
+  subCategory: number;
 }
 
 export enum PriceChange {

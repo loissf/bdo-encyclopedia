@@ -1,6 +1,5 @@
 import axios from "axios";
 import qs from "qs";
-import items from "./resources/items.json";
 import { ListItem, SubListItem, SubList } from "./models/Item";
 
 const url = "http://127.0.0.1:5000";
@@ -52,9 +51,8 @@ export async function getItemSearch(ids: number[]): Promise<ListItem[]> {
         id: ids,
       },
       paramsSerializer: {
-        encode: (params: number[]) => {
-          return qs.stringify(params, { indices: false, encode: false });
-        },
+        encode: (params: number[]) =>
+          qs.stringify(params, { indices: false, encode: false }),
       },
     });
 

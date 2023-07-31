@@ -30,8 +30,10 @@ class SubListItem(ItemBase):
     totalTrades = 0
     lastPrice = 0
     lastSale = 0
+    mainCategory = 0
+    subCategory = 0
 
-    def __init__(self, id, name, grade, icon, enhancement, stock, basePrice, totalTrades, lastPrice, lastSale):
+    def __init__(self, id, name, grade, icon, enhancement, stock, basePrice, totalTrades, lastPrice, lastSale, mainCategory, subCategory):
         super().__init__(id, name, grade, icon)
         self.enhancement = enhancement
         self.stock = stock
@@ -39,6 +41,8 @@ class SubListItem(ItemBase):
         self.totalTrades = totalTrades
         self.lastPrice = lastPrice
         self.lastSale = lastSale
+        self.mainCategory = mainCategory
+        self.subCategory = subCategory
 
 
 class HotListItem(SubListItem):

@@ -40,7 +40,7 @@ def getSearchList(search: list[str]) -> list[ListItem]:
 
     response = requests.request('POST', url, json=payload, headers=headers)
     attributeList = __responseToAttributes(response.text)
-    items = __mapListItem(attributeList)
+    items = __mapSearchListItem(attributeList)
     return items
     
 
@@ -83,7 +83,31 @@ def __subListResponseToAttributes(response):
         attributes = item.split("-")
         itemList.append(attributes)
     
-    return itemList[:-1]
+    return itemList
+
+
+def __mapSearchListItem(attributeList):
+    items = []
+    for attributes in attributeList:
+        
+        try:
+            dictionaryEntry = dictionary.get(str(attributes[0]))
+            item = ListItem(
+                id = int(attributes[0]),
+                name = dictionaryEntry['name'],
+                grade = int(dictionaryEntry['grade']),
+                stock = int(attributes[1]),
+                basePrice = int(attributes[2]),
+                totalTrades = int(attributes[3]),
+                icon = f"https:\\cdn.arsha.io/icons/{attributes[0]}.png",
+            )
+
+            items.append(item)
+
+        except Exception as e:
+            print(e)
+            print(f"Error getting item {attributes[0]}")
+    return items
 
 
 def __mapListItem(attributeList):
@@ -93,13 +117,13 @@ def __mapListItem(attributeList):
         try:
             dictionaryEntry = dictionary.get(str(attributes[0]))
             item = ListItem(
-                id = attributes[0],
+                id = int(attributes[0]),
                 name = dictionaryEntry['name'],
-                grade = dictionaryEntry['grade'],
-                stock = attributes[1],
-                basePrice = attributes[2],
-                totalTrades = attributes[3],
-                icon = f"https:\\cdn.arsha.io/icons/{attributes[0]}.png"
+                grade = int(dictionaryEntry['grade']),
+                stock = int(attributes[1]),
+                totalTrades = int(attributes[2]),
+                basePrice = int(attributes[3]),
+                icon = f"https:\\cdn.arsha.io/icons/{attributes[0]}.png",
             )
 
             items.append(item)
@@ -117,16 +141,18 @@ def __mapSubListItem(attributeList):
         try:
             dictionaryEntry = dictionary.get(str(attributes[0]))
             item = SubListItem(
-                id = attributes[0],
+                id = int(attributes[0]),
                 name = dictionaryEntry['name'],
-                grade = dictionaryEntry['grade'],
-                enhancement = attributes[1],
-                basePrice = attributes[3],
-                stock = attributes[4],
-                totalTrades = attributes[5],
-                lastPrice = attributes[8],
-                lastSale = attributes[9],
-                icon = f"https:\\cdn.arsha.io/icons/{attributes[0]}.png"
+                grade = int(dictionaryEntry['grade']),
+                enhancement = int(attributes[1]),
+                basePrice = int(attributes[3]),
+                stock = int(attributes[4]),
+                totalTrades = int(attributes[5]),
+                lastPrice = int(attributes[8]),
+                lastSale = int(attributes[9]),
+                icon = f"https:\\cdn.arsha.io/icons/{attributes[0]}.png",
+                mainCategory = int(dictionaryEntry['main_category']),
+                subCategory = int(dictionaryEntry['sub_category'])
             )
 
             items.append(item)

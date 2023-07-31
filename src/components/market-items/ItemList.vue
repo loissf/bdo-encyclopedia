@@ -1,20 +1,15 @@
 <template>
   <div v-if="selectedItem" class="item-detail">
     <button type="button" @click="selectedItem = undefined">Return</button>
-    <template v-if="selectedItem.subList.length > 0">
-      <ListItemComponent
-        class="base-item"
-        :item="selectedItem.baseItem"
-      ></ListItemComponent>
-      <ul>
-        <li v-for="item in selectedItem.subList" :key="item.id">
-          <ListItemComponent :item="item"></ListItemComponent>
-        </li>
-      </ul>
-    </template>
-    <template v-else>
-      <ItemDetail></ItemDetail>
-    </template>
+    <ListItemComponent
+      class="base-item"
+      :item="selectedItem.baseItem"
+    ></ListItemComponent>
+    <ul>
+      <li v-for="item in selectedItem.subList" :key="item.id">
+        <ListItemComponent :item="item"></ListItemComponent>
+      </li>
+    </ul>
   </div>
   <div v-else class="item-list">
     <ul>
@@ -29,17 +24,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { ListItem, SubList } from "@/models/Item";
 import ListItemComponent from "./ListItemComponent.vue";
-import ItemDetail from "./ItemDetail.vue";
 import { getItem } from "@/queries";
+import { useMarketStore } from "@/components/market-store";
 
-const props = defineProps({
-  items: {
-    type: Object as () => Array<ListItem>,
-    required: true,
-  },
+const marketStore = useMarketStore();
+
+const items = computed({
+  get: () => marketStore.listItems,
+  set: (value) => (marketStore.listItems = value),
 });
 
 const selectedItem = ref<SubList>();

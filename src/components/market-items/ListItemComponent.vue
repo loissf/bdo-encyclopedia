@@ -1,7 +1,7 @@
 <template>
   <div :grade="item.grade" class="item" :id="item.id.toString()">
     <img class="icon" :src="item.icon" alt="" />
-    <span class="name">{{ item.name }}</span>
+    <span class="name">{{ enhancement?.name }}{{ item.name }}</span>
     <div class="price details-section">
       <label for="price-value">Base Price</label>
       <span class="value" id="price-value"
@@ -21,11 +21,11 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { ListItem } from "@/models/Item";
+import { ListItem, SubListItem } from "@/models/Item";
 
 const props = defineProps({
   item: {
-    type: Object as () => ListItem,
+    type: Object as () => ListItem | SubListItem,
     required: true,
   },
 });
@@ -38,6 +38,53 @@ const price = computed(() => {
     return parseFloat((props.item.basePrice / 1000000).toFixed(2)) + " M";
   } else if (size > 3) {
     return parseFloat((props.item.basePrice / 1000).toFixed(2)) + " k";
+  }
+});
+
+function isSubListItem(item: any): item is SubListItem {
+  if ((props.item as SubListItem).enhancement) {
+    return true;
+  }
+
+  return false;
+}
+
+const enhancementNames: { [key: number]: string } = {
+  16: "PRI",
+  17: "DUO",
+  18: "TRI",
+  19: "TET",
+  20: "PEN",
+};
+
+const enhancementSymbols: { [key: number]: string } = {
+  16: "I",
+  17: "II",
+  18: "III",
+  19: "IV",
+  20: "V",
+};
+
+const enhancement = computed(() => {
+  if (isSubListItem(props.item)) {
+    const level = props.item.enhancement;
+    if (props.item.mainCategory === 20) {
+      return {
+        name: `${enhancementNames[level + 15]}:`,
+        symbol: enhancementSymbols[level + 15],
+      };
+    }
+    if (level > 0 && level <= 15) {
+      return {
+        name: `+${level} `,
+        symbol: `+${level} `,
+      };
+    } else if (level > 15 && level <= 20) {
+      return {
+        name: `${enhancementNames[level]}:`,
+        symbol: enhancementSymbols[level],
+      };
+    }
   }
 });
 </script>
