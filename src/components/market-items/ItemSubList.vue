@@ -1,12 +1,12 @@
 <template>
-  <div v-if="selectedItem" class="item-detail">
-    <button type="button" @click="returnClick">Return</button>
+  <button type="button" @click="returnClick">Return</button>
+  <div v-if="itemSubList" class="item-detail">
     <ListItemComponent
       class="base-item"
-      :item="selectedItem.baseItem"
+      :item="itemSubList.baseItem"
     ></ListItemComponent>
     <ul>
-      <li v-for="item in selectedItem.subList" :key="item.id">
+      <li v-for="item in itemSubList.subList" :key="item.id">
         <ListItemComponent
           :item="item"
           @click="selectItem(item)"
@@ -14,19 +14,21 @@
       </li>
     </ul>
   </div>
+  <div v-else>ERROR</div>
 </template>
 
 <script setup lang="ts">
 import ListItemComponent from "./ListItemComponent.vue";
 import { useMarketStore, ViewType } from "@/components/market-store";
 import { SubListItem } from "@/models/Item";
+import { computed } from "vue";
 
 const marketStore = useMarketStore();
 
-const selectedItem = marketStore.selectedItem;
+const itemSubList = computed(() => marketStore.selectedItem);
 
-async function selectItem(item: SubListItem) {
-  marketStore.viewType = ViewType.ItemDetail;
+function selectItem(item: SubListItem) {
+  marketStore.selectEnhancement(item);
 }
 
 function returnClick() {

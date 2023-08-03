@@ -88,7 +88,7 @@ export async function getItemOrders(
       `${url}/items/${id}/orders/${enhancement}`
     );
 
-    return data;
+    return data.sort((a, b) => (a.price > b.price ? -1 : 1));
   } catch (e) {
     console.log(e);
     return [];

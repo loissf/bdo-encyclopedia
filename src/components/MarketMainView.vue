@@ -20,7 +20,7 @@ import TopBar from "./TopBar.vue";
 import CategoriesSelector from "./categories-selector/CategoriesSelector.vue";
 
 import { useMarketStore, ViewType } from "./market-store";
-import ItemDetail from "./market-items/ItemDetail.vue";
+import ItemDetail from "./market-items/item-detail/ItemDetail.vue";
 
 const marketStore = useMarketStore();
 

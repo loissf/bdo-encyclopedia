@@ -1,7 +1,7 @@
 <template>
-  <div class="item-list">
+  <div v-if="category" class="item-list">
     <ul>
-      <li v-for="item in items" :key="item.id">
+      <li v-for="item in category.items" :key="item.id">
         <ListItemComponent
           :item="item"
           @click="selectItem(item)"
@@ -15,28 +15,14 @@
 import { computed } from "vue";
 import { ListItem } from "@/models/Item";
 import ListItemComponent from "./ListItemComponent.vue";
-import { getItem } from "@/queries";
-import { useMarketStore, ViewType } from "@/components/market-store";
+import { useMarketStore } from "@/components/market-store";
 
 const marketStore = useMarketStore();
 
-const items = computed({
-  get: () => marketStore.listItems,
-  set: (value) => (marketStore.listItems = value),
-});
+const category = computed(() => marketStore.selectedCategory);
 
-async function selectItem(item: ListItem) {
-  const selectedItem = (await getItem(item.id)) ?? {
-    baseItem: item,
-    subList: [],
-  };
-
-  marketStore.selectedItem = selectedItem;
-
-  marketStore.viewType =
-    selectedItem.subList.length > 1
-      ? ViewType.ItemSubList
-      : ViewType.ItemDetail;
+function selectItem(item: ListItem) {
+  marketStore.selectItem(item.id);
 }
 </script>
 

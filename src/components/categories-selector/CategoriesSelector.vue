@@ -25,13 +25,10 @@
 </template>
 
 <script setup lang="ts">
-import { getCategory } from "@/queries";
 import { computed, ref } from "vue";
 import market_categories from "../../resources/market_categories.json";
-import { useMarketStore, ViewType } from "../market-store";
+import { useMarketStore } from "../market-store";
 import CollapsibleElement from "./CollapsibleElement.vue";
-
-const emits = defineEmits(["select:category"]);
 
 const marketStore = useMarketStore();
 
@@ -56,11 +53,10 @@ const menu = computed(
 const expandedCategory = ref<string>("");
 
 async function selectCategory(categoryId: string, subcategoryId: string) {
-  marketStore.viewType = ViewType.ItemList;
-  marketStore.listItems = await getCategory(
-    parseInt(categoryId),
-    parseInt(subcategoryId)
-  );
+  marketStore.selectCategory({
+    mainCategory: parseInt(categoryId),
+    subCategory: parseInt(subcategoryId),
+  });
 }
 </script>
 
