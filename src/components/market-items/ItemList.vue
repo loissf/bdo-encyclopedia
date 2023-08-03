@@ -27,7 +27,14 @@ function selectItem(item: ListItem) {
 </script>
 
 <style scoped lang="scss">
+@import "@/styles/main.scss";
+
 .item-list {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+
+  @include custom-scrollbar;
 }
 
 ul {

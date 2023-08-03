@@ -37,7 +37,14 @@ function returnClick() {
 </script>
 
 <style scoped lang="scss">
+@import "@/styles/main.scss";
 .item-detail {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+
+  @include custom-scrollbar;
+
   .base-item {
     margin-bottom: 1.5rem;
   }

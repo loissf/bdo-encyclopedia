@@ -55,27 +55,26 @@ const viewType = computed(() => {
   .categories {
     border: 1px solid white;
     grid-area: categories;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: hidden;
   }
 
   .content {
     border: 1px solid white;
     grid-area: content;
-    overflow-y: auto;
+    overflow: hidden;
   }
 
-  *::-webkit-scrollbar {
-    width: 6px;
-  }
+  // *::-webkit-scrollbar {
+  //   width: 6px;
+  // }
 
-  *::-webkit-scrollbar-track {
-    background: #2b2b2b;
-  }
+  // *::-webkit-scrollbar-track {
+  //   background: #2b2b2b;
+  // }
 
-  *::-webkit-scrollbar-thumb {
-    background-color: #dfb14f;
-    border-radius: 10px;
-  }
+  // *::-webkit-scrollbar-thumb {
+  //   background-color: #dfb14f;
+  //   border-radius: 10px;
+  // }
 }
 </style>

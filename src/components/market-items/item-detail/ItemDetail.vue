@@ -1,9 +1,9 @@
 <template>
   <div v-if="item" class="detail" :grade="item.grade">
+    <!-- <button type="button" @click="returnClick">Return</button> -->
     <div class="header">
       <img class="icon" :src="item.icon" alt="" />
       <span class="name">{{ item.name }}</span>
-      <button type="button" @click="returnClick">Return</button>
     </div>
     <div class="info">
       <div class="section">
@@ -25,7 +25,9 @@
         }}</span>
       </div>
     </div>
-    <div class="graph"></div>
+    <div class="chart">
+      <Line :options="chartOptions" :data="chartData" />
+    </div>
     <div class="orders">
       <ItemOrders />
     </div>
@@ -33,8 +35,32 @@
 </template>
 <script setup lang="ts">
 import { useMarketStore, ViewType } from "@/components/market-store";
-import { computed } from "vue";
+import { getPriceHistory } from "@/queries";
+import { computed, ref } from "vue";
+import { Line } from "vue-chartjs";
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+} from "chart.js";
 import ItemOrders from "./ItemOrders.vue";
+
+ChartJS.register(
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement
+);
 
 const marketStore = useMarketStore();
 
@@ -43,22 +69,95 @@ const item = computed(() => marketStore.selectedEnhancement);
 function returnClick() {
   marketStore.viewType = ViewType.ItemList;
 }
+
+const chartOptions = ref({
+  responsive: true,
+  maintainAspectRatio: true,
+  scales: {
+    y: {
+      beginAtZero: false,
+    },
+  },
+  elements: {
+    point: {
+      radius: 0,
+    },
+  },
+  interaction: {
+    mode: "index",
+    axis: "x",
+    intersect: false,
+  },
+  tension: 0.2,
+  plugins: {
+    legend: {
+      display: false,
+    },
+    tooltip: {
+      enabled: true,
+      backgroundColor: "#fff",
+      titleColor: "#000",
+      bodyColor: "#000",
+      displayColors: false,
+      bodyFont: {
+        size: 16,
+        weight: "bold",
+      },
+      titleFont: {
+        size: 16,
+        weight: "normal",
+      },
+      xAlign: "left",
+    },
+  },
+});
+
+const data = ref<{ x: string; y: number }[]>([]);
+
+if (marketStore.selectedEnhancement) {
+  getPriceHistory(
+    marketStore.selectedEnhancement.id,
+    marketStore.selectedEnhancement.enhancement
+  ).then((result) => {
+    data.value = [];
+    let date = new Date();
+    for (let i = 0; i < result.length; i++) {
+      data.value.push({
+        x: date.toLocaleDateString(),
+        y: result[i],
+      });
+      date = new Date(date.getTime() + 86400000); // + 1 day in ms
+    }
+    console.log(data.value);
+  });
+}
+
+const chartData = computed(() => ({
+  datasets: [{ data: data.value, borderColor: "#9BD0F5" }],
+}));
 </script>
 <style scoped lang="scss">
 .detail {
   display: grid;
+  margin: 0.5rem;
 
   grid-template:
     "header orders" 1fr
     "info orders" 3fr
-    "graph orders" 3fr /
+    "chart orders" 3fr /
     1fr auto;
 
-  overflow: hidden;
   height: 100%;
 
   .header {
     grid-area: header;
+
+    display: flex;
+
+    flex-direction: row;
+    align-items: center;
+
+    gap: 2rem;
 
     .icon {
       padding: 0.25rem;
@@ -67,11 +166,18 @@ function returnClick() {
 
       background-color: rgba(0, 0, 0, 0.65);
     }
+
+    .name {
+      flex-grow: 1;
+      text-align: left;
+      font-size: larger;
+    }
   }
 
   .orders {
     grid-area: orders;
     overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .info {
@@ -102,8 +208,8 @@ function returnClick() {
     }
   }
 
-  .graph {
-    grid-area: graph;
+  .chart {
+    grid-area: chart;
   }
 
   &[grade="0"] {

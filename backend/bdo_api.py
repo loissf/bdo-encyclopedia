@@ -80,6 +80,23 @@ def getBiddingInfo(id: int, enhancement: int) -> list[ItemOrders]:
     return items
 
 
+def getPriceInfo(id: int, enhancement: int) -> list[ItemOrders]:
+    url = 'https://eu-trade.naeu.playblackdesert.com/Trademarket/GetMarketPriceInfo'
+    headers = {
+        "Content-Type": "application/json",
+        "User-Agent": "BlackDesert"
+    }
+    payload = {
+        "keyType": 0,
+        "mainKey": id,
+        "subKey": enhancement
+    }
+
+    response = requests.request('POST', url, json=payload, headers=headers)
+    prices = __priceInfoResponseToList(response.text)
+    return prices
+
+
 def __responseToAttributes(response):
     itemList = []
 
@@ -103,6 +120,16 @@ def __subListResponseToAttributes(response):
     
     return itemList
 
+
+def __priceInfoResponseToList(response):
+    prices = []
+
+    splitted = response[29:][:-2].split("-")
+
+    for price in splitted:
+        prices.append(int(price))
+    
+    return prices
 
 def __mapSearchListItem(attributeList):
     items = []

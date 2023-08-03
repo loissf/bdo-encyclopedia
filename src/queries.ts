@@ -94,3 +94,19 @@ export async function getItemOrders(
     return [];
   }
 }
+
+export async function getPriceHistory(
+  id: number,
+  enhancement: number
+): Promise<number[]> {
+  try {
+    const { data } = await axios.get<number[]>(
+      `${url}/items/${id}/price/${enhancement}`
+    );
+
+    return data;
+  } catch (e) {
+    console.log(e);
+    return [];
+  }
+}

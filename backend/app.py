@@ -2,7 +2,7 @@ from flask import Flask, request
 
 from cache_functions import checkCache, createCache
 
-from bdo_api import getSubList, getSearchList, getMarketList, getBiddingInfo
+from bdo_api import getSubList, getSearchList, getMarketList, getBiddingInfo, getPriceInfo
 
 app = Flask(__name__)
 
@@ -85,6 +85,23 @@ def getItemOrders(id: int, enhancement: int):
 
         createCache(key, orders)
         return orders
+    except Exception as e:
+        print(e)
+        return e.__str__()
+
+
+@app.route('/items/<int:id>/price/<int:enhancement>', methods = ['GET'])
+def getPriceHistory(id: int, enhancement: int):
+    key = ['price', id, enhancement]
+    cache = checkCache(key)
+
+    if(cache):
+        return cache
+
+    try:
+        prices = getPriceInfo(id, enhancement)
+        createCache(key, prices)
+        return prices
     except Exception as e:
         print(e)
         return e.__str__()

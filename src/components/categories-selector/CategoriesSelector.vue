@@ -61,7 +61,15 @@ async function selectCategory(categoryId: string, subcategoryId: string) {
 </script>
 
 <style scoped lang="scss">
+@import "@/styles/main.scss";
+
 .categories-selector {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+
+  @include custom-scrollbar;
+
   ul {
     margin: 0;
     padding: 0;
