@@ -1,5 +1,5 @@
 import { ListItem, SubList, SubListItem } from "@/models/Item";
-import { getCategory, getItem } from "@/queries";
+import { getCategory, getItem, getItemSearch } from "@/queries";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
@@ -10,8 +10,8 @@ export enum ViewType {
 }
 
 export interface Category {
-  mainCategory: number;
-  subCategory: number;
+  mainCategory: number | undefined;
+  subCategory: number | undefined;
   items: ListItem[];
 }
 
@@ -27,6 +27,16 @@ export const useMarketStore = defineStore("market", () => {
       selected.subCategory
     );
     selectedCategory.value = { ...selected, items };
+    viewType.value = ViewType.ItemList;
+  }
+
+  async function searchItems(ids: number[]) {
+    const items = await getItemSearch(ids);
+    selectedCategory.value = {
+      mainCategory: undefined,
+      subCategory: undefined,
+      items,
+    };
     viewType.value = ViewType.ItemList;
   }
 
@@ -50,6 +60,7 @@ export const useMarketStore = defineStore("market", () => {
   return {
     selectCategory,
     selectedCategory,
+    searchItems,
     selectItem,
     selectedItem,
     selectedEnhancement,

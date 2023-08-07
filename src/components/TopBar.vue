@@ -1,5 +1,13 @@
 <template>
   <div class="item-search">
+    <select name="grade" id="grade-select" v-model="selectedGrade">
+      <option value="">All</option>
+      <option value="0">White</option>
+      <option value="1">Green</option>
+      <option value="2">Blue</option>
+      <option value="3">Yellow</option>
+      <option value="4">Red</option>
+    </select>
     <input
       type="text"
       name="search-input"
@@ -11,8 +19,6 @@
 </template>
 
 <script setup lang="ts">
-import { ListItem } from "@/models/Item";
-import { getItemSearch } from "@/queries";
 import { ref } from "vue";
 import items from "../resources/items.json";
 import { useMarketStore } from "./market-store";
@@ -21,15 +27,23 @@ const marketStore = useMarketStore();
 
 const searchTerm = ref<string>("");
 
+const selectedGrade = ref<string>("");
+
 async function search() {
+  if (!searchTerm.value) {
+    return;
+  }
   const ids = Object.values(items)
-    .filter((x) =>
-      decodeHtmlCharCodes(x.name)
-        .toLowerCase()
-        .includes(searchTerm.value.toLowerCase())
+    .filter(
+      (x) =>
+        decodeHtmlCharCodes(x.name)
+          .toLowerCase()
+          .includes(searchTerm.value.toLowerCase()) &&
+        (selectedGrade.value != "" ? x.grade === selectedGrade.value : true)
     )
     .map((x) => parseInt(x.id));
-  marketStore.listItems = await getItemSearch(ids);
+
+  await marketStore.searchItems(ids);
 }
 
 function decodeHtmlCharCodes(str: string) {

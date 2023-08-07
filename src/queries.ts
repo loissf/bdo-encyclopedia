@@ -51,8 +51,7 @@ export async function getItemSearch(ids: number[]): Promise<ListItem[]> {
         id: ids,
       },
       paramsSerializer: {
-        encode: (params: number[]) =>
-          qs.stringify(params, { indices: false, encode: false }),
+        indexes: null,
       },
     });
 

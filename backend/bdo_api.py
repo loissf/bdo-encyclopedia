@@ -1,4 +1,5 @@
 import requests
+import json
 
 from file_functions import openJSON, createJSON
 from Item import ListItem, SubListItem, HotListItem, ItemOrders
@@ -35,7 +36,7 @@ def getSearchList(search: list[str]) -> list[ListItem]:
         "User-Agent": "BlackDesert"
     }
     payload = {
-        "searchResult": ",".join(search)
+        "searchResult": ",".join(search[:100])
     }
 
     response = requests.request('POST', url, json=payload, headers=headers)
@@ -57,7 +58,7 @@ def getSubList(id: int) -> list[SubListItem]:
     }
 
     response = requests.request('POST', url, json=payload, headers=headers)
-    attributeList = __subListResponseToAttributes(response.text)
+    attributeList = __responseToAttributes(response.text)
     items = __mapSubListItem(attributeList)
     return items
 
@@ -93,43 +94,50 @@ def getPriceInfo(id: int, enhancement: int) -> list[ItemOrders]:
     }
 
     response = requests.request('POST', url, json=payload, headers=headers)
-    prices = __priceInfoResponseToList(response.text)
+    prices = __responseToValues(response.text)
     return prices
+
+
+def __getResultMsg(msg: str):
+    try:
+        dictionary = json.loads(msg)
+        result = dictionary['resultMsg']
+    except:
+        result = msg
+    
+
+    if(result[-1] == "|"):
+        result = result[:-1]
+
+    return result
 
 
 def __responseToAttributes(response):
-    itemList = []
+    values = []
 
-    splitted = response.split("|")
+    result = __getResultMsg(response)
 
-    for item in splitted:
-        attributes = item.split("-")
-        itemList.append(attributes)
-    
-    return itemList[:-1]
-
-
-def __subListResponseToAttributes(response):
-    itemList = []
-
-    splitted = response[29:][:-3].split("|")
+    splitted = result.split("|")
 
     for item in splitted:
         attributes = item.split("-")
-        itemList.append(attributes)
+        values.append(attributes)
     
-    return itemList
+    return values
 
 
-def __priceInfoResponseToList(response):
-    prices = []
+def __responseToValues(response):
+    values = []
 
-    splitted = response[29:][:-2].split("-")
+    result = __getResultMsg(response)
 
-    for price in splitted:
-        prices.append(int(price))
+    splitted = result.split("-")
+
+    for value in splitted:
+        values.append(int(value))
     
-    return prices
+    return values
+
 
 def __mapSearchListItem(attributeList):
     items = []

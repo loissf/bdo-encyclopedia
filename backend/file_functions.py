@@ -1,4 +1,5 @@
 import json
+import csv
 
 def createJSON(data, filename, subfolder):
     with open(subfolder + '\\' + filename, 'w', encoding="utf8") as outfile:
@@ -10,5 +11,22 @@ def openJSON(filename, subfolder):
             openedFile = json.load(json_file)
         return openedFile
     except:
-        return []
+        return {}
 
+def readCsv(filename, subfolder, newline='', delimiter=',', quotechar='"', hasHeader=True):
+    try:
+        with open(subfolder + '\\' + filename, mode="r", encoding="utf8", newline=newline) as csvfile:
+            spamreader = csv.reader(csvfile, delimiter=delimiter, quotechar=quotechar)
+
+            header: list[str] = []
+            rows: list[list[str]] = []
+            
+            if(hasHeader):
+                header = spamreader.__next__()
+
+            for row in spamreader:
+                rows.append(row)
+
+            return ( header, rows )
+    except:
+        return None
