@@ -15,7 +15,7 @@
 import { computed } from "vue";
 import { ListItem } from "@/models/Item";
 import ListItemComponent from "./ListItemComponent.vue";
-import { useMarketStore } from "@/components/market-store";
+import { useMarketStore } from "@/marketplace/market-store";
 
 const marketStore = useMarketStore();
 
@@ -55,3 +55,4 @@ ul {
   }
 }
 </style>
+@/marketplace/market-store

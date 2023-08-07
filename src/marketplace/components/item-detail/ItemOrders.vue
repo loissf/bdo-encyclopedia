@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMarketStore } from "@/components/market-store";
+import { useMarketStore } from "@/marketplace/market-store";
 import { ItemOrders } from "@/models/Item";
 import { getItemOrders } from "@/queries";
 import { computed, ref } from "vue";
@@ -167,3 +167,4 @@ if (marketStore.selectedEnhancement) {
   }
 }
 </style>
+@/marketplace/market-store

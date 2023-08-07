@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import ListItemComponent from "./ListItemComponent.vue";
-import { useMarketStore, ViewType } from "@/components/market-store";
+import { useMarketStore, ViewType } from "@/marketplace/market-store";
 import { SubListItem } from "@/models/Item";
 import { computed } from "vue";
 
@@ -68,3 +68,4 @@ ul {
   }
 }
 </style>
+@/marketplace/market-store

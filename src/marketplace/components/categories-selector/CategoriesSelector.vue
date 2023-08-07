@@ -26,8 +26,8 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import market_categories from "../../resources/market_categories.json";
-import { useMarketStore } from "../market-store";
+import market_categories from "@/resources/market_categories.json";
+import { useMarketStore } from "@/marketplace/market-store";
 import CollapsibleElement from "./CollapsibleElement.vue";
 
 const marketStore = useMarketStore();
@@ -89,3 +89,4 @@ async function selectCategory(categoryId: string, subcategoryId: string) {
   }
 }
 </style>
+../../marketplace/market-store

@@ -1,9 +1,9 @@
 <template>
-  <MarketMainView></MarketMainView>
+  <Marketplace></Marketplace>
 </template>
 
 <script setup lang="ts">
-import MarketMainView from "./components/MarketMainView.vue";
+import Marketplace from "./marketplace/Marketplace.vue";
 </script>
 
 <style lang="scss">

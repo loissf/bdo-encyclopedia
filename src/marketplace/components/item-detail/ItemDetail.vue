@@ -35,7 +35,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useMarketStore, ViewType } from "@/components/market-store";
+import { useMarketStore, ViewType } from "@/marketplace/market-store";
 import { getPriceHistory } from "@/queries";
 import { computed, ref } from "vue";
 import { Line } from "vue-chartjs";
@@ -299,3 +299,4 @@ const chartData = computed(() => ({
   }
 }
 </style>
+@/marketplace/market-store

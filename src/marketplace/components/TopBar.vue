@@ -20,8 +20,8 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import items from "../resources/items.json";
-import { useMarketStore } from "./market-store";
+import items from "@/resources/items.json";
+import { useMarketStore } from "@/marketplace/market-store";
 
 const marketStore = useMarketStore();
 
@@ -52,3 +52,4 @@ function decodeHtmlCharCodes(str: string) {
   });
 }
 </script>
+../marketplace/market-store

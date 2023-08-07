@@ -14,13 +14,15 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import ItemList from "./market-items/ItemList.vue";
-import ItemSubList from "./market-items/ItemSubList.vue";
-import TopBar from "./TopBar.vue";
-import CategoriesSelector from "./categories-selector/CategoriesSelector.vue";
 
 import { useMarketStore, ViewType } from "./market-store";
-import ItemDetail from "./market-items/item-detail/ItemDetail.vue";
+
+import TopBar from "./components/TopBar.vue";
+import CategoriesSelector from "./components/categories-selector/CategoriesSelector.vue";
+
+import ItemList from "./components/item-list/ItemList.vue";
+import ItemSubList from "./components/item-list/ItemSubList.vue";
+import ItemDetail from "./components/item-detail/ItemDetail.vue";
 
 const marketStore = useMarketStore();
 
