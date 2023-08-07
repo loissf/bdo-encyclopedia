@@ -26,7 +26,8 @@
       </div>
     </div>
     <div class="chart">
-      <Line :options="chartOptions" :data="chartData" />
+      <label for="price-chart">Price history</label>
+      <Line id="price-chart" :options="chartOptions" :data="chartData" />
     </div>
     <div class="orders">
       <ItemOrders />
@@ -157,6 +158,8 @@ const chartData = computed(() => ({
     flex-direction: row;
     align-items: center;
 
+    padding: 1rem;
+
     gap: 2rem;
 
     .icon {
@@ -189,27 +192,47 @@ const chartData = computed(() => ({
     justify-self: center;
     align-self: center;
 
-    row-gap: 1.5rem;
+    gap: 1.5rem;
+
+    padding: 2rem 3em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
 
     .section {
       display: flex;
       flex-direction: column;
 
+      padding: 0.25rem;
+
+      border: 1px solid rgb(56, 56, 56);
+      border-radius: 8px;
+
+      background-color: #2b2b2b;
+      box-shadow: 4px 4px 24px 0px rgba(0, 0, 0, 0.75);
+
+      align-content: space-between;
+      align-items: center;
+
       label {
-        text-align: left;
+        padding: 0.25rem;
         font-size: 80%;
         color: rgba(196, 196, 196, 0.75);
       }
 
       span {
-        text-align: left;
-        margin-top: 0.375rem;
+        font-size: 120%;
+        padding: 0.5rem;
       }
     }
   }
 
   .chart {
     grid-area: chart;
+
+    label {
+      font-size: 80%;
+      color: rgba(196, 196, 196, 0.75);
+    }
   }
 
   &[grade="0"] {
