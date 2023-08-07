@@ -1,9 +1,10 @@
 <template>
-  <Marketplace></Marketplace>
+  <Enhancement></Enhancement>
 </template>
 
 <script setup lang="ts">
 import Marketplace from "./marketplace/Marketplace.vue";
+import Enhancement from "./enhancement/Enhancement.vue";
 </script>
 
 <style lang="scss">

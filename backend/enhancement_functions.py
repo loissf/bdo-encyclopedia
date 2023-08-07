@@ -24,7 +24,7 @@ def getItemChances(file: str, currentEnhancement: int) -> list[float]:
     return chance
 
 
-def getItemPossibleEnhancements(file: str) -> list[int]:
+def getItemEnhancementRange(file: str) -> list[int]:
     ( header, rows ) = readCsv(file, enhancementDataPath, delimiter=";")
     return header[:-1]
 
@@ -88,7 +88,7 @@ def getEnhancementChance(itemId: int, currentEnhancement: int, initialFs: int):
 
 # Fs made using white equipment
 # Returns the average amount of fails needed to reach the target amount
-def getWhiteFsCost(targetFs: int, initialFs: int = 0) -> float:
+def getWhiteFsCost(targetFs: int) -> float:
     chances = getItemChances("WhiteArmor.csv", 14)
     
     kList = []
@@ -104,16 +104,11 @@ def getWhiteFsCost(targetFs: int, initialFs: int = 0) -> float:
 
         kList.append(k)
 
-    return kList[targetFs] - kList[initialFs]
+    return kList[targetFs]
 
 
-first = getEnhancementChance(14023, 0, 1)
-second = getEnhancementChance(14023, 1, 20)
-third = getEnhancementChance(14023, 2, 30)
-
-firstAmount = 2 / first
-secondAmount = (firstAmount + 1) / second
-thirdAmount = (secondAmount + 1) / third
-
-print(first, second, third)
-print(firstAmount, secondAmount, thirdAmount)
+def getFsCost(targetFs: int) -> float:
+    if targetFs in blackStoneExchange:
+        return blackStoneExchange[targetFs]
+    
+    return getWhiteFsCost(targetFs)
