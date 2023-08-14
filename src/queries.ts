@@ -109,3 +109,57 @@ export async function getPriceHistory(
     return [];
   }
 }
+
+export async function getAvaliableEnhancements(id: number): Promise<number[]> {
+  try {
+    const { data } = await axios.get<number[]>(
+      `${url}/enhance/${id}/avaliable`
+    );
+
+    return data;
+  } catch (e) {
+    console.log(e);
+    return [];
+  }
+}
+
+export async function getEnhancementChance(
+  id: number,
+  lvl: number,
+  fs: number
+): Promise<number | undefined> {
+  try {
+    const { data } = await axios.get<number>(`${url}/enhance/${id}`, {
+      params: {
+        lvl: lvl,
+        fs: fs,
+      },
+    });
+
+    return data;
+  } catch (e) {
+    console.log(e);
+    return undefined;
+  }
+}
+
+export async function getWhiteFsCost(
+  amount: number
+): Promise<number | undefined> {
+  try {
+    const { data } = await axios.get<number>(`${url}/enhance/fs`, {
+      params: {
+        amount: amount,
+      },
+    });
+
+    return data;
+  } catch (e) {
+    console.log(e);
+    return undefined;
+  }
+}
+
+export function getFile(path: string): string {
+  return `${url}/${path}`;
+}

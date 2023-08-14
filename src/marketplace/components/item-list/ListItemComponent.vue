@@ -1,15 +1,15 @@
 <template>
   <div :grade="item.grade" class="item" :id="item.id.toString()">
-    <img class="icon" :src="item.icon" alt="" />
-    <span class="name">{{ enhancement?.name }}{{ item.name }}</span>
+    <img class="item-icon" :src="item.icon" :grade="item.grade" />
+    <span class="item-name" :grade="item.grade"
+      >{{ enhancement?.name }}{{ item.name }}</span
+    >
     <div class="price details-section">
       <label for="price-value">Base Price</label>
       <span class="value" id="price-value"
-        ><img
-          class="silver-icon"
-          src="https:\\cdn.arsha.io/icons/1.png"
-          alt=""
-        />{{ price }}</span
+        ><img class="silver-icon" src="https:\\cdn.arsha.io/icons/1.png" />{{
+          price
+        }}</span
       >
     </div>
     <div class="stock details-section">
@@ -90,6 +90,8 @@ const enhancement = computed(() => {
 </script>
 
 <style scoped lang="scss">
+@import "@/styles/main.scss";
+
 .item {
   display: grid;
 
@@ -105,17 +107,15 @@ const enhancement = computed(() => {
 
   align-items: center;
 
-  .icon {
+  .item-icon {
     grid-area: icon;
 
     padding: 0.25rem;
     height: 2.5rem;
     width: 2.5rem;
-
-    background-color: rgba(0, 0, 0, 0.65);
   }
 
-  .name {
+  .item-name {
     grid-area: name;
     padding: 0.5rem;
 
@@ -155,56 +155,6 @@ const enhancement = computed(() => {
 
     .value {
       text-align: right;
-    }
-  }
-
-  &[grade="0"] {
-    .name {
-      color: white;
-    }
-    .icon {
-      border: 1px solid rgba(255, 255, 255, 0.6);
-      box-shadow: 0px 0px 8px 0px rgba(255, 255, 255, 0.4);
-    }
-  }
-
-  &[grade="1"] {
-    .name {
-      color: rgba(0, 128, 0);
-    }
-    .icon {
-      border: 1px solid rgba(0, 128, 0, 0.6);
-      box-shadow: 0px 0px 8px 0px rgba(0, 128, 0, 0.4);
-    }
-  }
-
-  &[grade="2"] {
-    .name {
-      color: rgba(60, 110, 255);
-    }
-    .icon {
-      border: 1px solid rgba(60, 110, 255, 0.6);
-      box-shadow: 0px 0px 8px 0px rgba(60, 110, 255, 0.4);
-    }
-  }
-
-  &[grade="3"] {
-    .name {
-      color: rgba(200, 200, 0);
-    }
-    .icon {
-      border: 1px solid rgba(200, 200, 0, 0.6);
-      box-shadow: 0px 0px 8px 0px rgba(200, 200, 0, 0.4);
-    }
-  }
-
-  &[grade="4"] {
-    .name {
-      color: rgba(170, 0, 0);
-    }
-    .icon {
-      border: 1px solid rgba(170, 0, 0, 0.6);
-      box-shadow: 0px 0px 8px 0px rgba(170, 0, 0, 0.4);
     }
   }
 }

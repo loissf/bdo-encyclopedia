@@ -12,3 +12,73 @@
     border-radius: 10px;
   }
 }
+
+@function grade-color($grade) {
+  @return map-get(
+    (
+      0: #ffffff,
+      1: #008000,
+      2: #3c6dff,
+      3: #c8c800,
+      4: #aa0000,
+    ),
+    $grade
+  );
+}
+
+@mixin icon-grade($grade) {
+  $color: grade-color($grade);
+
+  border: 1px solid transparentize($color, 0.4);
+  box-shadow: 0px 0px 8px 0px transparentize($color, 0.6);
+}
+
+.item-icon {
+  background-color: rgba(0, 0, 0, 0.65);
+
+  &[grade="0"] {
+    @include icon-grade(0);
+  }
+
+  &[grade="1"] {
+    @include icon-grade(1);
+  }
+
+  &[grade="2"] {
+    @include icon-grade(2);
+  }
+
+  &[grade="3"] {
+    @include icon-grade(3);
+  }
+
+  &[grade="4"] {
+    @include icon-grade(4);
+  }
+}
+
+@mixin label-grade($grade) {
+  color: grade-color($grade);
+}
+
+.item-name {
+  &[grade="0"] {
+    @include label-grade(0);
+  }
+
+  &[grade="1"] {
+    @include label-grade(1);
+  }
+
+  &[grade="2"] {
+    @include label-grade(2);
+  }
+
+  &[grade="3"] {
+    @include label-grade(3);
+  }
+
+  &[grade="4"] {
+    @include label-grade(4);
+  }
+}

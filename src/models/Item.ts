@@ -33,8 +33,8 @@ export interface HotListItem extends SubListItem {
 }
 
 export interface DictionaryItem extends ItemBase {
-  main_category: string;
-  sub_category: string;
+  mainCategory: string;
+  subCategory: string;
 }
 
 export interface SubList {

@@ -81,7 +81,7 @@ def getItemEnhancementCategory(itemId: int) -> str | None:
 
 
 def getEnhancementChance(itemId: int, currentEnhancement: int, initialFs: int):
-    file = f"{getItemEnhancementCategory(itemId)}.csv" # TODO Determine the required file name from the item id
+    file = f"{getItemEnhancementCategory(itemId)}.csv"
     chances = getItemChances(file, currentEnhancement)[initialFs:]
     return getAverageChance(chances)
 

@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, jsonify, request, send_from_directory
 
 from cache_functions import checkCache, createCache
 
@@ -115,11 +115,11 @@ def getAvaliableEnhancements(id: int):
 
 
 @app.route('/enhance/<int:id>', methods = ['GET'])
-def getEnhancementChances(id: int):
+def getItemEnhancementChance(id: int):
     try:
         lvl = int(request.args.get("lvl"))
         fs = int(request.args.get("fs"))
-        return getEnhancementChance(id, lvl, fs)
+        return getEnhancementChance(id, lvl, fs).__str__() # Seems like, maybe, Flask doesnt like too long floats
     except Exception as e:
         print(e)
         return e.__str__()
@@ -133,6 +133,15 @@ def getWhiteFsCost():
     except Exception as e:
         print(e)
         return e.__str__()
+
+
+@app.route('/<path:filename>', methods=['GET', 'POST'])
+def index(filename):
+    filename = filename or 'index.html'
+    if request.method == 'GET':
+        return send_from_directory('.', filename)
+
+    return jsonify(request.data)
 
 
 if __name__ == "__main__":

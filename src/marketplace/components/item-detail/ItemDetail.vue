@@ -299,4 +299,3 @@ const chartData = computed(() => ({
   }
 }
 </style>
-@/marketplace/market-store
