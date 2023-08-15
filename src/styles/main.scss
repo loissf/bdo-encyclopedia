@@ -29,12 +29,13 @@
 @mixin icon-grade($grade) {
   $color: grade-color($grade);
 
-  border: 1px solid transparentize($color, 0.4);
-  box-shadow: 0px 0px 8px 0px transparentize($color, 0.6);
+  border-radius: 4px;
+  border: 2px solid darken($color, 10);
+  // box-shadow: 0px 0px 8px 0px darken($color, 10);
 }
 
-.item-icon {
-  background-color: rgba(0, 0, 0, 0.65);
+@mixin item-icon {
+  background-color: rgb(15, 15, 15);
 
   &[grade="0"] {
     @include icon-grade(0);
@@ -61,7 +62,7 @@
   color: grade-color($grade);
 }
 
-.item-name {
+@mixin item-name {
   &[grade="0"] {
     @include label-grade(0);
   }
@@ -81,4 +82,14 @@
   &[grade="4"] {
     @include label-grade(4);
   }
+}
+
+@mixin floating-section {
+  border: 1px solid rgb(56, 56, 56);
+  border-radius: 8px;
+
+  background-color: #2b2b2b;
+  box-shadow: 4px 4px 24px 0px rgba(0, 0, 0, 0.75);
+
+  padding: 0.5rem;
 }

@@ -52,4 +52,3 @@ function decodeHtmlCharCodes(str: string) {
   });
 }
 </script>
-../marketplace/market-store

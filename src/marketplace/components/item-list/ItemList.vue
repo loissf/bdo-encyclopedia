@@ -34,25 +34,24 @@ function selectItem(item: ListItem) {
   overflow-x: hidden;
   height: 100%;
 
-  @include custom-scrollbar;
-}
-
-ul {
-  width: 100%;
-
-  padding: 0;
-  margin: 0;
-
-  overflow-y: auto;
-
-  li {
-    display: block;
+  ul {
+    @include custom-scrollbar;
     width: 100%;
+    height: 100%;
 
-    &:not(:last-child) {
-      margin-bottom: 0.375rem;
+    padding: 0;
+    margin: 0;
+
+    overflow-y: auto;
+
+    li {
+      display: block;
+      width: 100%;
+
+      &:not(:last-child) {
+        margin-bottom: 0.375rem;
+      }
     }
   }
 }
 </style>
-@/marketplace/market-store

@@ -167,4 +167,4 @@ if (marketStore.selectedEnhancement) {
   }
 }
 </style>
-@/marketplace/market-store
+@/marketplace/market-store @/marketplace/Item

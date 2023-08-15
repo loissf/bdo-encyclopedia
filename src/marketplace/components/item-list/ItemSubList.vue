@@ -1,6 +1,6 @@
 <template>
   <button type="button" @click="returnClick">Return</button>
-  <div v-if="itemSubList" class="item-detail">
+  <div v-if="itemSubList" class="item-sub-list">
     <ListItemComponent
       class="base-item"
       :item="itemSubList.baseItem"
@@ -38,7 +38,8 @@ function returnClick() {
 
 <style scoped lang="scss">
 @import "@/styles/main.scss";
-.item-detail {
+
+.item-sub-list {
   overflow-y: auto;
   overflow-x: hidden;
   height: 100%;
@@ -48,24 +49,24 @@ function returnClick() {
   .base-item {
     margin-bottom: 1.5rem;
   }
-}
 
-ul {
-  width: 100%;
-
-  padding: 0;
-  margin: 0;
-
-  overflow-y: auto;
-
-  li {
-    display: block;
+  ul {
     width: 100%;
+    height: 100%;
 
-    &:not(:last-child) {
-      margin-bottom: 0.375rem;
+    padding: 0;
+    margin: 0;
+
+    overflow-y: auto;
+
+    li {
+      display: block;
+      width: 100%;
+
+      &:not(:last-child) {
+        margin-bottom: 0.375rem;
+      }
     }
   }
 }
 </style>
-@/marketplace/market-store

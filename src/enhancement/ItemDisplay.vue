@@ -1,16 +1,18 @@
 <template>
-  <div class="item" :title="`${enhancementName} ${item.name}`">
-    <img :src="iconUrl" id="icon" class="item-icon" :grade="item.grade" />
-    <img :src="enhancementSymbolIcon" class="symbol-icon" />
+  <div class="item">
+    <ItemIcon
+      :item-id="item.id"
+      :item-grade="item.grade"
+      :enhancement="item.enhancement"
+      :title="`${enhancementName} ${item.name}`"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { getIconUrl } from "../utils/icon-functions";
-import {
-  getEnhancementName,
-  getEnhancementSymbolIcon,
-} from "../utils/grade-functions";
+import { getEnhancementName } from "../utils/item-functions";
+
+import ItemIcon from "@/components/ItemIcon.vue";
 
 import { Item } from "./Process";
 import { computed } from "vue";
@@ -22,14 +24,8 @@ const props = defineProps({
   },
 });
 
-const iconUrl = computed(() => getIconUrl(props.item.id));
-
 const enhancementName = computed(() =>
   getEnhancementName(props.item.id, props.item.enhancement)
-);
-
-const enhancementSymbolIcon = computed(() =>
-  getEnhancementSymbolIcon(props.item.id, props.item.enhancement)
 );
 </script>
 
@@ -54,7 +50,7 @@ const enhancementSymbolIcon = computed(() =>
 
   .symbol-icon {
     position: absolute;
-    width: 2.5rem;
+    width: 2.75rem;
   }
 }
 </style>

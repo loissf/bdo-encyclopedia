@@ -1,9 +1,16 @@
 <template>
   <div :grade="item.grade" class="item" :id="item.id.toString()">
-    <img class="item-icon" :src="item.icon" :grade="item.grade" />
-    <span class="item-name" :grade="item.grade"
-      >{{ enhancement?.name }}{{ item.name }}</span
-    >
+    <ItemIcon
+      :item-id="item.id"
+      :item-grade="item.grade"
+      :enhancement="enhancement"
+    />
+    <ItemName
+      :item-id="item.id"
+      :item-name="item.name"
+      :item-grade="item.grade"
+      :enhancement="enhancement"
+    />
     <div class="price details-section">
       <label for="price-value">Base Price</label>
       <span class="value" id="price-value"
@@ -22,6 +29,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { ListItem, SubListItem } from "@/models/Item";
+import ItemIcon from "@/components/ItemIcon.vue";
+import ItemName from "@/components/ItemName.vue";
 
 const props = defineProps({
   item: {
@@ -49,49 +58,12 @@ function isSubListItem(item: any): item is SubListItem {
   return false;
 }
 
-const enhancementNames: { [key: number]: string } = {
-  16: "PRI",
-  17: "DUO",
-  18: "TRI",
-  19: "TET",
-  20: "PEN",
-};
-
-const enhancementSymbols: { [key: number]: string } = {
-  16: "I",
-  17: "II",
-  18: "III",
-  19: "IV",
-  20: "V",
-};
-
-const enhancement = computed(() => {
-  if (isSubListItem(props.item)) {
-    const level = props.item.enhancement;
-    if (props.item.mainCategory === 20) {
-      return {
-        name: `${enhancementNames[level + 15]}:`,
-        symbol: enhancementSymbols[level + 15],
-      };
-    }
-    if (level > 0 && level <= 15) {
-      return {
-        name: `+${level} `,
-        symbol: `+${level} `,
-      };
-    } else if (level > 15 && level <= 20) {
-      return {
-        name: `${enhancementNames[level]}:`,
-        symbol: enhancementSymbols[level],
-      };
-    }
-  }
-});
+const enhancement = computed(() =>
+  isSubListItem(props.item) ? props.item.enhancement : 0
+);
 </script>
 
 <style scoped lang="scss">
-@import "@/styles/main.scss";
-
 .item {
   display: grid;
 
@@ -118,8 +90,6 @@ const enhancement = computed(() => {
   .item-name {
     grid-area: name;
     padding: 0.5rem;
-
-    text-align: left;
   }
 
   .price {

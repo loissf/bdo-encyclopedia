@@ -2,8 +2,17 @@
   <div v-if="item" class="detail" :grade="item.grade">
     <!-- <button type="button" @click="returnClick">Return</button> -->
     <div class="header">
-      <img class="icon" :src="item.icon" alt="" />
-      <span class="name">{{ item.name }}</span>
+      <ItemIcon
+        :item-id="item.id"
+        :item-grade="item.grade"
+        :enhancement="item.enhancement"
+      />
+      <ItemName
+        :item-id="item.id"
+        :item-name="item.name"
+        :item-grade="item.grade"
+        :enhancement="item.enhancement"
+      />
     </div>
     <div class="info">
       <div class="section">
@@ -27,7 +36,11 @@
     </div>
     <div class="chart">
       <label for="price-chart">Price history</label>
-      <Line id="price-chart" :options="chartOptions" :data="chartData" />
+      <Line
+        id="price-chart"
+        :options="(chartOptions as any)"
+        :data="(chartData as any)"
+      />
     </div>
     <div class="orders">
       <ItemOrders />
@@ -51,6 +64,8 @@ import {
   LineElement,
 } from "chart.js";
 import ItemOrders from "./ItemOrders.vue";
+import ItemIcon from "@/components/ItemIcon.vue";
+import ItemName from "@/components/ItemName.vue";
 
 ChartJS.register(
   Title,
@@ -129,7 +144,6 @@ if (marketStore.selectedEnhancement) {
       });
       date = new Date(date.getTime() + 86400000); // + 1 day in ms
     }
-    console.log(data.value);
   });
 }
 
@@ -138,6 +152,8 @@ const chartData = computed(() => ({
 }));
 </script>
 <style scoped lang="scss">
+@import "@/styles/main.scss";
+
 .detail {
   display: grid;
   margin: 0.5rem;
@@ -161,23 +177,10 @@ const chartData = computed(() => ({
     padding: 1rem;
 
     gap: 2rem;
-
-    .icon {
-      padding: 0.25rem;
-      height: 2.5rem;
-      width: 2.5rem;
-
-      background-color: rgba(0, 0, 0, 0.65);
-    }
-
-    .name {
-      flex-grow: 1;
-      text-align: left;
-      font-size: larger;
-    }
   }
 
   .orders {
+    @include custom-scrollbar;
     grid-area: orders;
     overflow-y: auto;
     overflow-x: hidden;
@@ -233,69 +236,6 @@ const chartData = computed(() => ({
       font-size: 80%;
       color: rgba(196, 196, 196, 0.75);
     }
-  }
-
-  &[grade="0"] {
-    .name {
-      color: white;
-    }
-    .icon {
-      border: 1px solid rgba(255, 255, 255, 0.6);
-      box-shadow: 0px 0px 8px 0px rgba(255, 255, 255, 0.4);
-    }
-  }
-
-  &[grade="1"] {
-    .name {
-      color: rgba(0, 128, 0);
-    }
-    .icon {
-      border: 1px solid rgba(0, 128, 0, 0.6);
-      box-shadow: 0px 0px 8px 0px rgba(0, 128, 0, 0.4);
-    }
-  }
-
-  &[grade="2"] {
-    .name {
-      color: rgba(60, 110, 255);
-    }
-    .icon {
-      border: 1px solid rgba(60, 110, 255, 0.6);
-      box-shadow: 0px 0px 8px 0px rgba(60, 110, 255, 0.4);
-    }
-  }
-
-  &[grade="3"] {
-    .name {
-      color: rgba(200, 200, 0);
-    }
-    .icon {
-      border: 1px solid rgba(200, 200, 0, 0.6);
-      box-shadow: 0px 0px 8px 0px rgba(200, 200, 0, 0.4);
-    }
-  }
-
-  &[grade="4"] {
-    .name {
-      color: rgba(170, 0, 0);
-    }
-    .icon {
-      border: 1px solid rgba(170, 0, 0, 0.6);
-      box-shadow: 0px 0px 8px 0px rgba(170, 0, 0, 0.4);
-    }
-  }
-
-  *::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  *::-webkit-scrollbar-track {
-    background: #2b2b2b;
-  }
-
-  *::-webkit-scrollbar-thumb {
-    background-color: #dfb14f;
-    border-radius: 10px;
   }
 }
 </style>
