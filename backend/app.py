@@ -4,7 +4,7 @@ from cache_functions import checkCache, createCache
 
 from bdo_api import getSubList, getSearchList, getMarketList, getBiddingInfo, getPriceInfo
 
-from enhancement_functions import getFsCost, getEnhancementChance, getItemEnhancementRange
+from enhancement_functions import getFsCost, getEnhancementChance, getItemEnhancementRange, getItemEnhancementCategory
 
 app = Flask(__name__)
 
@@ -111,7 +111,11 @@ def getPriceHistory(id: int, enhancement: int):
 
 @app.route('/enhance/<int:id>/avaliable', methods = ['GET'])
 def getAvaliableEnhancements(id: int):
-    return getItemEnhancementRange(id)
+    category = getItemEnhancementCategory(id)
+    if(not category):
+        return [1, 2, 3, 4]
+    file = f"{getItemEnhancementCategory(id)}.csv"
+    return getItemEnhancementRange(file)
 
 
 @app.route('/enhance/<int:id>', methods = ['GET'])

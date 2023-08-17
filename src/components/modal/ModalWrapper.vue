@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-background" @click.self="closeModal">
+  <div class="modal-background">
     <div class="modal-wrapper">
       <component :is="component" @close="closeModal" />
     </div>

@@ -26,7 +26,7 @@ def getItemChances(file: str, currentEnhancement: int) -> list[float]:
 
 def getItemEnhancementRange(file: str) -> list[int]:
     ( header, rows ) = readCsv(file, enhancementDataPath, delimiter=";")
-    return header[:-1]
+    return [int(value) for value in header[:-1]]
 
 
 # The parameter chances: list[float] is meant to be a list of the probabilities of success on each number of fs
